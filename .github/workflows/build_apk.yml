@@ -22,23 +22,17 @@ jobs:
       - name: Configurar Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
+          flutter-version: '3.27.0'
           channel: 'stable'
 
-      - name: Generar archivos base de Android
+      - name: Preparar dependencias y Android
         run: |
-          flutter create . --org com.mifamilia --project-name tele_facil
-          cp android/app/src/main/AndroidManifest.xml temp_manifest.xml 2>/dev/null || true
+          flutter create --platforms=android .
+          flutter pub add http video_player chewie shared_preferences wakelock_plus
           flutter pub get
 
       - name: Compilar APK (Release)
         run: flutter build apk --release
-
-      - name: Subir APK descargable
-        uses: actions/upload-artifact@v4
-        with:
-          name: TeleFacil-Instalador
-          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Subir APK descargable
         uses: actions/upload-artifact@v4
