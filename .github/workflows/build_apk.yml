@@ -25,11 +25,20 @@ jobs:
           flutter-version: '3.19.6'
           channel: 'stable'
 
-      - name: Instalar dependencias
-        run: flutter pub get
+      - name: Generar archivos base de Android
+        run: |
+          flutter create . --org com.mifamilia --project-name tele_facil
+          cp android/app/src/main/AndroidManifest.xml temp_manifest.xml 2>/dev/null || true
+          flutter pub get
 
       - name: Compilar APK (Release)
         run: flutter build apk --release
+
+      - name: Subir APK descargable
+        uses: actions/upload-artifact@v4
+        with:
+          name: TeleFacil-Instalador
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Subir APK descargable
         uses: actions/upload-artifact@v4
