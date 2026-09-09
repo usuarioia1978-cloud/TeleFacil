@@ -30,6 +30,7 @@ jobs:
           flutter create --platforms=android .
           flutter pub add http video_player chewie shared_preferences wakelock_plus
           flutter pub get
+          sed -i -E 's/id "org.jetbrains.kotlin.android" version "[^"]+"/id "org.jetbrains.kotlin.android" version "2.1.0"/' android/settings.gradle || true
 
       - name: Compilar APK (Release)
         run: flutter build apk --release
